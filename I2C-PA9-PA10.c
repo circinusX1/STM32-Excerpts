@@ -285,23 +285,23 @@ void i2c_try_to_reset(void)
 {
     I2C1 -> CR1 &= ~(I2C_CR1_PE);                       // disable I2C
     HAL_I2C_MspDeInit(&hi2c1);
-    s_sleep(32);
+    Hal_Delay(32);
     HAL_I2C_MspInit(&hi2c1);
 
     HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, 1);
     HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, 1);          
-    s_sleep(32);
+    Hal_Delay(32);
     HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, 0);
     HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, 0);          
-    s_sleep(32);                                       
+    Hal_Delay(32);                                       
     HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, 1);
     HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, 1);
-    s_sleep(32);
+    Hal_Delay(32);
 
     HAL_I2C_MspDeInit(&hi2c1);
-    s_sleep(32);
+    Hal_Delay(32);
     HAL_I2C_MspInit(&hi2c1);
-    s_sleep(32);
+    Hal_Delay(32);
     I2C1->CR1 |= I2C_CR1_SWRST;
     I2C1->CR1 &= ~(I2C_CR1_SWRST);
     I2C1->CR1 |= I2C_CR1_PE;
@@ -310,9 +310,9 @@ void i2c_try_to_reset(void)
     __HAL_RCC_I2C1_CLK_DISABLE();
     __HAL_RCC_I2C1_CLK_ENABLE();
     __HAL_RCC_I2C1_FORCE_RESET();
-    s_sleep(32);
+    Hal_Delay(32);
     __HAL_RCC_I2C1_RELEASE_RESET();
-    s_sleep(32);
+    Hal_Delay(32);
 #endif
 }
 
