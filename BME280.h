@@ -5,7 +5,7 @@
 #include "s2w.h"
 #include "sensors.h"
 
-#define BME280_ADDRESS                (0x76) /*scanned*/
+#define BME280_ADDRESS                (0x76)
 
 int BME280_init(struct ThpSensors* ps);
 struct Thp* BME280_read(struct ThpSensors* ps);
