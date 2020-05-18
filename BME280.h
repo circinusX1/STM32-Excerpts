@@ -2,7 +2,6 @@
 #define __BME280_H__
 
 #include "i2c.h"
-#include "s2w.h"
 #include "sensors.h"
 
 #define BME280_ADDRESS                (0x76)
