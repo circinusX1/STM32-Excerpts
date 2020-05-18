@@ -316,6 +316,26 @@ void i2c_try_to_reset(void)
 #endif
 }
 
+
+void i2c_detect_ontca_mux(void)
+{
+	uint8_t     data[4]={0x00};
+	
+	for(uint8_t pin=1;pin<=8;pin++)
+	{
+		    TCA9648_select(pin);
+   		 for(uint8_t addr=0x1;addr<0x80;addr++)
+		    {
+			         if(addr == 0x70 ) continue;
+			         if(i2c_writebytes(addr, 0, data, 1))
+			         {
+                //found I2C on pin pin address addr
+            }
+				   }//addr
+}//mux pins
+ 
+
+
 /* USER CODE END 1 */
 
 
