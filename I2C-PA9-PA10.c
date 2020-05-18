@@ -277,6 +277,45 @@ bool i2c_write32(int i2cnum, uint16_t address, uint16_t reg, uint32_t val)
     return _i2c_write(i2cnum, address, reg, &r, sizeof(uint32_t));
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////
+// PA9      ------> I2C1_SCL
+// PA10     ------> I2C1_SDA
+void i2c_try_to_reset(void)
+{
+    I2C1 -> CR1 &= ~(I2C_CR1_PE);                       // disable I2C
+    HAL_I2C_MspDeInit(&hi2c1);
+    s_sleep(32);
+    HAL_I2C_MspInit(&hi2c1);
+
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, 1);
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, 1);          
+    s_sleep(32);
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, 0);
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, 0);          
+    s_sleep(32);                                       
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, 1);
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_10, 1);
+    s_sleep(32);
+
+    HAL_I2C_MspDeInit(&hi2c1);
+    s_sleep(32);
+    HAL_I2C_MspInit(&hi2c1);
+    s_sleep(32);
+    I2C1->CR1 |= I2C_CR1_SWRST;
+    I2C1->CR1 &= ~(I2C_CR1_SWRST);
+    I2C1->CR1 |= I2C_CR1_PE;
+
+#ifdef TRY_ON_YOUR_OWN_RISK
+    __HAL_RCC_I2C1_CLK_DISABLE();
+    __HAL_RCC_I2C1_CLK_ENABLE();
+    __HAL_RCC_I2C1_FORCE_RESET();
+    s_sleep(32);
+    __HAL_RCC_I2C1_RELEASE_RESET();
+    s_sleep(32);
+#endif
+}
+
 /* USER CODE END 1 */
 
 
