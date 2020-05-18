@@ -29,4 +29,6 @@ typedef struct ThpSensors
     struct Thp sensdata;   // sensor last data
 } ThpSensors;
 
+#define  s_sleep Hal_Delay
+
 #endif _SENSORS_H_
